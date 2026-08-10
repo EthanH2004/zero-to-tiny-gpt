@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+
+# Work in progress — publishing when finished
+6-MLP_Language_Model/
+7-Self_Attention/
+Tiny_GPT/
