@@ -1,0 +1,83 @@
+[base_dataset]
+name = "HuggingFaceFW/fineweb-edu"
+config = "sample-10BT"
+split = "train"
+train_output = "data/base_train.txt"
+validation_output = "data/base_validation.txt"
+train_characters = 100000000
+validation_characters = 2000000
+seed = 42
+
+[chat_dataset]
+name = "OpenAssistant/oasst1"
+url = "https://huggingface.co/datasets/OpenAssistant/oasst1/resolve/main/2023-04-12_oasst_ready.trees.jsonl.gz?download=true"
+train_output = "data/chat_train.txt"
+validation_output = "data/chat_validation.txt"
+train_characters = 15000000
+validation_characters = 1000000
+maximum_message_characters = 2000
+maximum_paths_per_tree = 4
+seed = 42
+
+[tokenizer]
+output = "tokenizer.json"
+vocabulary_size = 2048
+minimum_frequency = 2
+
+[model]
+context_length = 256
+embedding_size = 384
+number_of_heads = 8
+number_of_layers = 8
+dropout = 0.1
+
+[base_training]
+data = "data/base_train.txt"
+validation_data = "data/base_validation.txt"
+output = "checkpoints/base_best.pt"
+latest = "checkpoints/base_latest.pt"
+complete = "checkpoints/base_complete.txt"
+time_minutes = 360
+maximum_steps = 150000
+batch_size = 8
+maximum_learning_rate = 0.0003
+minimum_learning_rate = 0.00003
+warmup_fraction = 0.02
+log_every = 100
+evaluate_every = 1000
+evaluation_batches = 20
+checkpoint_every = 5000
+early_stopping_patience = 10
+minimum_improvement = 0.002
+seed = 42
+
+[chat_training]
+data = "data/chat_train.txt"
+validation_data = "data/chat_validation.txt"
+resume = "checkpoints/base_best.pt"
+output = "checkpoints/chat_best.pt"
+latest = "checkpoints/chat_latest.pt"
+complete = "checkpoints/chat_complete.txt"
+time_minutes = 75
+maximum_steps = 30000
+batch_size = 8
+maximum_learning_rate = 0.0001
+minimum_learning_rate = 0.00001
+warmup_fraction = 0.02
+log_every = 50
+evaluate_every = 500
+evaluation_batches = 20
+checkpoint_every = 2500
+early_stopping_patience = 8
+minimum_improvement = 0.002
+seed = 43
+
+[chatbot]
+checkpoint = "checkpoints/chat_best.pt"
+response_tokens = 160
+temperature = 0.6
+top_k = 30
+seed = 42
+
+[pipeline]
+keep_awake = true

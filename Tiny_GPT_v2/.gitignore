@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Reproducible pipeline outputs — recreate with the pipeline, don't store in Git.
+data/*.txt
+data/*.tmp
+tokenizer.json
+checkpoints/*.pt
+checkpoints/*_complete.txt

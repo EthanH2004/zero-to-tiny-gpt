@@ -1,0 +1,66 @@
+[dataset]
+name = "roneneldan/TinyStories"
+config = "default"
+train_output = "data/tinystories_train.txt"
+validation_output = "data/tinystories_validation.txt"
+train_characters = 5000000
+validation_characters = 250000
+seed = 42
+
+[model]
+context_length = 256
+embedding_size = 128
+number_of_heads = 4
+number_of_layers = 4
+dropout = 0.1
+
+[training]
+data = "data/tinystories_train.txt"
+validation_data = "data/tinystories_validation.txt"
+output = "checkpoints/base.pt"
+steps = 35000
+batch_size = 8
+learning_rate = 0.0003
+log_every = 250
+evaluate_every = 1000
+evaluation_batches = 20
+seed = 42
+
+[generation]
+checkpoint = "checkpoints/base.pt"
+prompt = "the "
+length = 400
+temperature = 0.8
+top_k = 20
+seed = 42
+
+[fine_tuning]
+data = "data/oasst_train.txt"
+validation_data = "data/oasst_validation.txt"
+resume = "checkpoints/base.pt"
+output = "checkpoints/chat.pt"
+steps = 5000
+batch_size = 8
+learning_rate = 0.0001
+log_every = 100
+evaluate_every = 500
+evaluation_batches = 20
+seed = 42
+
+[chat_dataset]
+source = "OpenAssistant/oasst1"
+url = "https://huggingface.co/datasets/OpenAssistant/oasst1/resolve/main/2023-04-12_oasst_ready.messages.jsonl.gz?download=true"
+train_output = "data/oasst_train.txt"
+validation_output = "data/oasst_validation.txt"
+train_characters = 600000
+validation_characters = 60000
+maximum_prompt_characters = 300
+maximum_response_characters = 500
+seed = 42
+
+[chatbot]
+checkpoint = "checkpoints/chat.pt"
+response_length = 300
+temperature = 0.7
+top_k = 20
+seed = 42

@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.tools/
+.DS_Store
+
+# Model checkpoints can be large and can be recreated by training.
+checkpoints/*.pt
+!checkpoints/.gitkeep
+
+# Recreate these with prepare_data.py instead of storing corpora in Git.
+data/tinystories_train.txt
+data/tinystories_validation.txt
+data/oasst_train.txt
+data/oasst_validation.txt
+data/*.tmp
